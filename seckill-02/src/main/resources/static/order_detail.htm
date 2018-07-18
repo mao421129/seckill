@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>登录</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- jquery -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<!-- bootstrap -->
+<link rel="stylesheet" type="text/css"
+	href="/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript"
+	src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- jquery-validator -->
+<script type="text/javascript"
+	src="/jquery-validation/jquery.validate.min.js"></script>
+<script type="text/javascript"
+	src="/jquery-validation/localization/messages_zh.min.js"></script>
+<!-- layer -->
+<script type="text/javascript" src="/layer/layer.js"></script>
+<!-- md5.js -->
+<script type="text/javascript" src="/js/md5.min.js"></script>
+<!-- common.js -->
+<script type="text/javascript" src="/js/common.js"></script>
+</head>
+<body>
+	<div>
+		<p id="user"></p>
+	</div>
+
+	<div>
+		<p class="panel-heading">秒杀订单详情</p>
+		<table border="1" class="table" id="seckillProductOrder">
+			<tr>
+				<td>商品名称</td>
+				<td colspan="3" id="productName"></td>
+			</tr>
+			<tr>
+				<td>商品图片</td>
+				<td colspan="3"><img id="img"/></td>
+			</tr>
+			<tr>
+				<td>秒杀价格</td>
+				<td colspan="2" id="seckillPrice"></td>
+			</tr>
+			<tr>
+				<td>下单时间</td>
+				<td id="payDate"></td>
+			</tr>
+			<tr>
+				<td>订单状态</td>
+				<td id="statement"></td>
+				<td>
+					<button class="btn btn-primary btn-block" type="button" id="paybutton">支付</button>
+				</td>
+			</tr>
+			<tr>
+				<td>收货人</td>
+				<td id="userName">mao</td>
+			</tr>
+			<tr>	
+				<td>收货地址</td>
+				<td>深圳 龙华</td>
+			</tr>
+		</table>
+	</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	getDetail();
+});
+
+function getDetail(){
+	var orderId = g_getQueryString("orderId");
+	$.ajax({
+		url:"/order/detail",
+		type:"get",
+		data:{
+			orderId:orderId
+		},
+		success:function(data){
+			if(data.codeMsg.code == 0){
+				layer.msg("创建订单成功");
+				render(data.data);
+			}else{
+				layer.msg(data.codeMsg.msg);
+			}
+		},
+		error:function(){
+			layer.msg("客户端请求有误");
+		}
+	});
+}
+
+function render(detail){
+	var product = detail.product;
+	var orderInfo = detail.orderInfo;
+	var user = detail.user;
+	$("#productName").text("apple");
+	$("#img").attr("src", product.productImage);
+	$("#seckillPrice").text(orderInfo.productPrice);
+	$("#payDate").text(new Date(orderInfo.creatDate).format("yyyy-MM-dd hh:mm:ss"));
+	var status = "";
+	if(orderInfo.status == 0){
+		status = "未支付"
+	}else if(orderInfo.status == 1){
+		status = "待发货";
+	}
+	$("#statement").text(status);
+	$("#user").text("welcom!please pay you order!" + user.nickname);
+	$("#username").text(user.nickname);
+}
+</script>
+</html>

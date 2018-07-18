@@ -1,0 +1,22 @@
+spring:
+  thymeleaf:
+    cache: true
+    check-template: true
+    check-template-location: true
+    enable: true
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    servlet.content-type: text/html
+    suffix: .html
+  datasource: 
+    type: com.alibaba.druid.pool.DruidDataSource
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/seckill
+    username: root
+    password: 1234
+  rabbitmq:
+    host: localhost
+    port: 5672  
+    username: mao
+    password: 1234
+   

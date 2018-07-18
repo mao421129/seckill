@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>登录</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- jquery -->
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<!-- bootstrap -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/bootstrap/css/bootstrap.min.css}" />
+<script type="text/javascript"
+	th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!-- jquery-validator -->
+<script type="text/javascript"
+	th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- md5.js -->
+<script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+<body>
+	<div>
+		<p th:text="'welcom! ' + ${user.nickname} + '您已经成功秒杀'" />
+	</div>
+
+	<div>
+		<p class="panel-heading">秒杀商品详情</p>
+		<table border="3" class="table" id="seckillProductOrder">
+			<tr>
+				<td>商品名称</td>
+				<th th:text="${product.productName}"></th>
+			</tr>
+			<tr>
+				<td>商品图片</td>
+				<th colspan="3"><img th:src="@{${product.productImage}}"/></th>
+			</tr>
+			<tr>
+				<td>秒杀价格</td>
+				<th th:text="${orderInfo.productPrice}"></th>
+			</tr>
+			<tr>
+				<td>下单时间</td>
+				<th th:text="${#dates.format(orderInfo.creatDate,'yyyy-MM-dd HH:mm:ss')}"></th>
+			</tr>
+			<tr>
+				<td>订单状态</td>
+				<td>
+					<span th:if="${orderInfo.status eq 0}">未支付</span>
+					<span th:if="${orderInfo.status eq 1}">已支付</span>
+					<span th:if="${orderInfo.status eq 2}">待发货</span>
+					<span th:if="${orderInfo.status eq 3}">已发货</span>
+					<span th:if="${orderInfo.status eq 4}">待收货</span>
+					<span th:if="${orderInfo.status eq 5}">已退货</span>
+					<span th:if="${orderInfo.status eq 6}">已退款</span>
+					<span th:if="${orderInfo.status eq 7}">已收货</span>
+					<span th:if="${orderInfo.status eq 8}">已完成</span>
+				</td>
+				<td>
+					<button class="btn btn-primary btn-block" type="button" id="paybutton">支付</button>
+				</td>
+			</tr>
+			<tr>
+				<td>收货人</td>
+				<th th:text="${user.nickname}"></th>
+			</tr>
+			<tr>	
+				<td>收货地址</td>
+				<th>深圳 龙华</th>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
